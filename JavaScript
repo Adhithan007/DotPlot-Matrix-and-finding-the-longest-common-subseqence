@@ -1,0 +1,154 @@
+ function NMmatrix(numrows, numcols, initial) { // To create a n x m matrix 
+    var arr = [];
+    for (var i = 0; i < numrows; ++i) {
+    var columns = [];
+    for (var j = 0; j < numcols; ++j) {
+    columns[j] = initial;
+    }
+    arr[i] = columns;
+    }
+    return arr;
+   }
+   
+   
+   function DotMat(S1,S2){
+    var X=NMmatrix(S1.length,S2.length,0)
+    for(i=0;i<S1.length;i++){
+        for (j=0; j<S2.length;j++){
+            if(S1[i]==S2[j]){
+                X[j][i]=1
+            }
+        }
+        }
+    return X
+} 
+
+
+function DotMatS(S1,S2){
+    var X=NMmatrix(S1.length,S2.length,0)
+    for(i=0;i<S1.length;i++){
+        for (j=0; j<S2.length;j++){
+            if(S1[i]==S2[j]){
+                X[j][i]=S1[i]
+            }
+        }
+        }
+    return X.reverse()
+} 
+
+
+function Diag(m) {
+    var s, x, y, d,
+        o = [];
+    for (s = 0; s < m.length; s++) {
+      d = [];
+      for(y = s, x = 0; y >= 0; y--, x++)
+        d.push(m[y][x]);
+      o.push(d);
+    }
+    for (s = 1; s < m[0].length; s++) {
+      d = [];
+      for(y = m.length - 1, x = s; x < m[0].length; y--, x++)
+        d.push(m[y][x]);
+      o.push(d);
+    }
+    return o;
+}
+
+
+function List2Seq(diagonal2){
+    b1=[]
+    for (var i = 0; i < diagonal2.length; i++) {
+    temp=""
+    ii=diagonal2[i]
+
+    for (var j = 0; j < ii.length-1; j++) {
+        if(ii[j]!=" "){
+            temp=temp+ii[j]
+            }
+        else {
+        b1.push(temp)
+        temp=""
+        }
+        }
+        b1.push(temp)
+        }
+
+    final=[]
+    for (var i = 0; i < b1.length; i++) {
+        ii=b1[i]
+        ii2=new Array(ii)
+        if (ii.length>1){
+        final.push(ii2.join(''))
+        }
+        }
+    return final
+}
+
+
+function String(S1,S2){
+    
+    if(S1.length==S2.length){
+        return [S1,S2]
+    }
+    
+   if(S1.length<S2.length){
+       S1=S1+"-" 
+       return String(S1,S2)
+    }
+    else if(S1.length>S2.length){
+       S2=S2+"-" 
+       return String(S1,S2)
+    }
+}
+
+
+function  DotPlot_and_common_seq(S1,S2){
+    x=String(S1,S2)
+    var S1=x[0]
+    var S2=x[1]
+    console.log("Seqence 1  :  ",S1)
+    console.log("Seqence 2  :  ",S2)
+    console.log("      ")
+    console.log("Question 1 & Question 2:  ")
+    console.log("      ")
+    var D=DotMat(x[0],x[1])
+    var S1_S=S1.split('')
+    var S2_S=S2.split('')
+    console.log("   ",S1_S.join("  "))
+    for (i=0;i<(S1_S).length;i++){
+        console.log(S2_S[i],D[i])
+    }
+
+    x=String(S1,S2)
+    var S1=x[0]
+    var S2=x[1]
+    var DS=DotMatS(S1,S2)
+    var Diagonals= Diag(DS)
+    final= List2Seq(Diagonals)
+    console.log("      ")
+    console.log("      ")
+    console.log("Question 3:  ")
+    console.log("***** The Common Subsequences *****  ")
+    console.log(final)
+
+    myarray=final
+    maxlen=0
+    str=""
+    for (i=0; i<myarray.length; i++) {
+      if (myarray[i].length>maxlen) {
+        maxlen = myarray[i].length;
+        str=myarray[i]
+      }
+    }
+    console.log("      ")
+    console.log("      ")
+    console.log("Question 4:  ")
+    console.log("***** Longest Common Subsequence *****")
+    return str
+}
+
+
+S1 = "ACCTGAGCTCACCTGAGTTA"
+S2 = "ACCTGAGCTCACCTGAGTTA"
+z=DotPlot_and_common_seq(S1,S2)
